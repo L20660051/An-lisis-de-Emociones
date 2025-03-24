@@ -1,0 +1,236 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    display: flex;
+    height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+    overflow: hidden; /* Evita la barra de desplazamiento vertical innecesaria */
+    font-size: 1rem; /* Tamaño de fuente relativo */
+}
+
+.container {
+    display: flex; /* Coloca los elementos hijos uno al lado del otro */
+    width: 100%;
+    height: 100%; /* Asegura que el contenedor ocupe toda la altura del body */
+    overflow-x: hidden; /* Evita scroll horizontal */
+}
+
+.sidebar {
+    background-color: #A36361;
+    width: 250px; /* Ancho fijo para la barra lateral */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh; /* Ajusta para que ocupe toda la altura de la pantalla */
+}
+
+.sidebar nav a {
+    display: block;
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+}
+
+.sidebar nav a.active {
+    background-color: white; /* Color de fondo para el enlace activo */
+    color: black; /* Color de texto para el enlace activo */
+}
+
+.profile {
+    text-align: center;
+}
+
+.profile img {
+    width: 90px;
+    border-radius: 50%;
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 15px; /* Espacio debajo del h2 */
+}
+
+p {
+    margin-top: 20px; /* Elimina cualquier margen superior si existe */
+}
+
+nav a {
+    display: block;
+    padding: 10px;
+    color: #000;
+    text-decoration: none;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #e3dfd9; /* Color blanco claro */
+}
+
+.main-content {
+    flex-grow: 1; /* Permite que el contenido principal use el espacio restante */
+    padding: 20px;
+    background-color: #fff; /* Fondo blanco para el contenido principal */
+    overflow-y: auto; /* Permite scroll solo en el contenido si es necesario */
+}
+
+header {
+    background-color: #A36361;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+/* Barra de búsqueda */
+.notification-icon {
+    width: 170px; /* Ajustado a un tamaño más razonable */
+    object-fit: contain;
+    display: block;
+    margin: 20px auto; /* Centra horizontalmente y añade un margen superior de 20px */
+}
+
+/* Grid de estadísticas: Total de usuarios, casos de ansiedad, etc. */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Hace el grid más adaptable */
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.stat-card {
+    border-radius: 10px; /* Bordes suavizados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-icon {
+    width: 100px; /* Tamaño reducido */
+    object-fit: contain;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    color: #464255;
+    font-size: 32px; /* Tamaño ajustado */
+    font-weight: 700;
+}
+
+.stat-label {
+    color: #464255;
+    font-size: 16px; /* Tamaño ajustado */
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+/****************************************************/
+/* Gráfico circular */
+.circular-chart {
+    max-width: 70px;
+    max-height: 70px;
+    display: block;
+    margin: auto;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 4.5;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 4.5;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
+    }
+}
+
+.orange .circle {
+    stroke: #ff9f00;
+}
+
+.green .circle {
+    stroke: #00ff04;
+}
+
+
+.yellow .circle {
+    stroke: #f7c604;
+}
+
+.red .circle {
+    stroke: #ff5b5b;
+}
+
+.percentage {
+    font-size: 0.7em;
+    text-anchor: middle;
+    /* dominant-baseline: middle; */
+    fill: #333;
+}
+
+
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px; /* Reduce el tamaño de la barra lateral en pantallas más pequeñas */
+    }
+
+    .stat-icon {
+        width: 80px; /* Reduce el tamaño de los íconos de estadísticas */
+    }
+
+    .table-section {
+        height: calc(100vh - 250px); /* Ajuste manual para pantallas pequeñas */
+    }
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+/* Soporte Cross-Browser */
+html {
+    scroll-behavior: smooth;
+}
+
+@supports (-webkit-appearance: none) {
+    /* Estilos específicos para Chrome o navegadores basados en WebKit */
+    body {
+        font-size: 1rem; /* Ajusta para evitar el incremento en Chrome */
+    }
+}
+
+
+
+
+
+
+
+
+
+

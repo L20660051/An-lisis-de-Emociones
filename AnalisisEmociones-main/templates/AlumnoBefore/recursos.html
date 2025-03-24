@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos - Alumno</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: #ebaa48;
+            width: 250px;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile img {
+            width: 120px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile h2 {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: white;
+        }
+
+        nav a {
+            color: #fff;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 12px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Header */
+        header {
+            background-color: #ebaa48;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-bottom: 4px solid #d49040;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        /* Recursos Section */
+        .recursos-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .recursos-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            background-image: url('https://cms.areandina.edu.co/sites/default/files/styles/large/public/2022-04/portada_blog_piezas_contenido_bienestar_emocional_como_cuidar_de_el_y_su_importancia.jpg?itok=HgO5cSYx');
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 50px;
+            color: #ebaa48;
+            margin-right: 20px;
+        }
+
+        .card-body {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .card-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #eee;
+            margin-bottom: 15px;
+        }
+
+        .recurso-button {
+            background-color: #ebaa48;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .recurso-button:hover {
+            background-color: #d49040;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #ebaa48;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        footer button {
+            background-color: white;
+            color: #ebaa48;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        footer button:hover {
+            background-color: #d49040;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main-content {
+                margin-left: 200px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="profile">
+            <img src="https://farm4.static.flickr.com/3654/3592051397_7117be3c0c.jpg" alt="Perfil del Alumno">
+            {% if nombreAlumno %}
+                <h2> {{ nombreAlumno }}</h2>
+            {% else %}
+                <p class="no-records">No hay datos.</p>
+            {% endif %}
+        </div>
+        <nav>
+        <a href="{{ url_for('indexAlumno') }}"><i class="fas fa-home"></i> Inicio</a>
+        <a href="{{ url_for('historialAlumno') }}"><i class="fas fa-history"></i> Historial</a>
+        <a href="{{ url_for('mensajesAlumno') }}"><i class="fas fa-comments"></i> Mensajes</a>
+        <a href="{{ url_for('configuracionAlumno') }}"><i class="fas fa-cog"></i> Configuración</a>
+        <a href="{{ url_for('encuestasAlumno') }}"><i class="fas fa-poll"></i> Encuestas</a>
+        <a href="{{ url_for('recursosAlumno') }}"><i class="fas fa-book"></i> Recursos</a>
+        <a href="{{ url_for('analisis') }}"><i class="fas fa-camera"></i> Detección</a>
+    </nav>
+    <footer>
+        <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+    </footer>
+</div>
+
+<div class="main-content">
+    <header>
+        <h1>Recursos</h1>
+    </header>
+
+    <div class="recursos-container">
+        <h2 class="recursos-title">Recursos Disponibles</h2>
+
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-book-open"></i></div>
+            <div class="card-body">
+                <h5 class="card-title">Guía de Bienestar</h5>
+                <p class="card-description">Una guía completa para el bienestar emocional y físico.</p>
+                <button class="recurso-button" data-bs-toggle="modal" data-bs-target="#modalGuia">Ver</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-video"></i></div>
+            <div class="card-body">
+                <h5 class="card-title">Videos de Relajación</h5>
+                <p class="card-description">Disfruta de una serie de videos para relajarte y meditar.</p>
+                <button class="recurso-button" data-bs-toggle="modal" data-bs-target="#modalVideos">Ver</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-newspaper"></i></div>
+            <div class="card-body">
+                <h5 class="card-title">Artículos Informativos</h5>
+                <p class="card-description">Lecturas para entender mejor la salud mental y emocional.</p>
+                <button class="recurso-button" data-bs-toggle="modal" data-bs-target="#modalArticulos">Ver</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal fade" id="modalGuia" tabindex="-1" aria-labelledby="modalGuiaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalGuiaLabel">Guía de Bienestar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Aquí puedes explorar la guía de bienestar que hemos preparado para ti.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalVideos" tabindex="-1" aria-labelledby="modalVideosLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalVideosLabel">Videos de Relajación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Aquí puedes ver una serie de videos diseñados para ayudarte a relajarte.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalArticulos" tabindex="-1" aria-labelledby="modalArticulosLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalArticulosLabel">Artículos Informativos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Aquí puedes explorar diversos artículos sobre salud mental y bienestar emocional.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

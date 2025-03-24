@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuestas - Alumno</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: #A36361;
+            width: 250px;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .sidebar:hover {
+            background-color: #764342;
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile img {
+            width: 120px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile h2 {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: white;
+        }
+
+        .profile p {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        nav a {
+            color: #fff;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 12px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        nav a i {
+            margin-right: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Header */
+        header {
+            background-color: #A36361;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            background-color: #764342;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        /* Encuestas Section */
+        .encuestas-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .encuestas-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .encuesta-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+            border-left: 5px solid #764342;
+        }
+
+        .encuesta-item:hover {
+            background-color: #e2e6ea;
+        }
+
+        .encuesta-label {
+            font-size: 1.2rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .encuesta-label i {
+            color: #ebaa48;
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .encuesta-button {
+            background-color: #A36361;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .encuesta-button:hover {
+            background-color: #764342;
+        }
+
+        /* Modal Styles */
+        .modal-header {
+            background-color: #A36361;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        footer button {
+            background-color: white;
+            color: #ebaa48;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        footer button:hover {
+            background-color: #d49040;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main-content {
+                margin-left: 200px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <div style = "display: none;"> 
+        <div class="container">
+            <h1>Detección de Ansiedad</h1>
+            <div class="content">
+                <video id="camera" autoplay muted playsinline></video>
+                <div class="level-display">
+                    La cámara está activa para el análisis.
+                </div>
+            </div>
+            <div class="spinner-border text-warning spinner" id="loading-spinner" role="status" style="display: none;">
+                <span class="visually-hidden">Analizando...</span>
+            </div>
+            <div class="results-box">
+                <h3>Resultados del Análisis</h3>
+                <div id="analysis-results">
+                    <!-- Los resultados del análisis se mostrarán aquí -->
+                </div>
+            </div>
+        </div> 
+    </div>
+
+
+
+    <div class="sidebar">
+        <div class="profile">
+            <img src="{{ url_for('static', filename='/usuario.jpg') }}" alt="Perfil">
+            {% if nombreAlumno %}
+                <h2> {{ nombreAlumno }}</h2>
+            {% else %}
+                <p class="no-records">No hay datos.</p>
+            {% endif %}
+        </div>
+        <nav>
+        <a href="{{ url_for('indexAlumno') }}"><i class="fas fa-home"></i> Inicio</a>
+        <a href="{{ url_for('historialAlumno') }}"><i class="fas fa-history"></i> Historial</a>
+        <a href="{{ url_for('mensajesAlumno') }}"><i class="fas fa-comments"></i> Mensajes</a>
+        <a href="{{ url_for('configuracionAlumno') }}"><i class="fas fa-cog"></i> Configuración</a>
+        <a href="{{ url_for('encuestasAlumno') }}"><i class="fas fa-poll"></i> Encuestas</a>
+        <a href="{{ url_for('recursosAlumno') }}"><i class="fas fa-book"></i> Recursos</a>
+        <!-- <a href="{{ url_for('analisis') }}"><i class="fas fa-camera"></i> Detección</a> -->
+    </nav>
+    <footer>
+        <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+    </footer>
+</div>
+
+<div class="main-content">
+    <header>
+        <h1>Encuestas</h1>
+    </header>
+
+    <div class="encuestas-container">
+        <h2 class="encuestas-title">Encuestas Disponibles</h2>
+
+        <div class="encuesta-item">
+            <span class="encuesta-label"><i class="fas fa-smile"></i> Encuesta sobre Bienestar 😊</span>
+            <button class="encuesta-button" data-bs-toggle="modal" data-bs-target="#bienestarModal">Ver Detalles</button>
+        </div>
+
+        <div class="encuesta-item">
+            <span class="encuesta-label"><i class="fas fa-thumbs-up"></i> Encuesta de Satisfacción 👍</span>
+            <button class="encuesta-button" data-bs-toggle="modal" data-bs-target="#satisfaccionModal">Ver Detalles</button>
+        </div>
+
+        <div class="encuesta-item">
+            <span class="encuesta-label"><i class="fas fa-book-open"></i> Encuesta de Recursos 📚</span>
+            <button class="encuesta-button" data-bs-toggle="modal" data-bs-target="#recursosModal">Ver Detalles</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Bienestar Survey -->
+<div class="modal fade" id="bienestarModal" tabindex="-1" aria-labelledby="bienestarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bienestarModalLabel">Encuesta sobre Bienestar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Esta encuesta está diseñada para conocer su bienestar general. Su opinión es muy valiosa para nosotros.</p>
+                <!-- Aquí puedes agregar el contenido de la encuesta -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Participar en la Encuesta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Satisfacción Survey -->
+<div class="modal fade" id="satisfaccionModal" tabindex="-1" aria-labelledby="satisfaccionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="satisfaccionModalLabel">Encuesta de Satisfacción</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Su opinión es muy importante para nosotros. Complete esta encuesta sobre su satisfacción con los servicios.</p>
+                <!-- Aquí puedes agregar el contenido de la encuesta -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Participar en la Encuesta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Recursos Survey -->
+<div class="modal fade" id="recursosModal" tabindex="-1" aria-labelledby="recursosModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recursosModalLabel">Encuesta de Recursos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Comparta su opinión sobre los recursos disponibles. Sus comentarios son muy valiosos para mejorar nuestros servicios.</p>
+                <!-- Aquí puedes agregar el contenido de la encuesta -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Participar en la Encuesta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<script>
+    let mediaRecorder, recordedChunks = [], cameraStream;
+
+    const cameraElement = document.getElementById('camera');
+    const analysisResults = document.getElementById('analysis-results');
+    const loadingSpinner = document.getElementById('loading-spinner');
+
+    // Activar la cámara
+    async function startCamera() {
+        cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        cameraElement.srcObject = cameraStream;
+    }
+
+    // Detener la cámara
+    function stopCamera() {
+        if (cameraStream) {
+            const tracks = cameraStream.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+        cameraElement.srcObject = null;
+    }
+
+    // Configurar MediaRecorder para grabar video
+    function setupMediaRecorder() {
+        mediaRecorder = new MediaRecorder(cameraStream);
+        
+        mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                recordedChunks.push(event.data);
+            }
+        };
+
+        mediaRecorder.onstop = () => {
+            const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+            recordedChunks = []; // Limpiar buffer
+            uploadVideo(videoBlob);
+        };
+    }
+
+    // Iniciar grabación de video
+    function recordVideo() {
+        if (!mediaRecorder || mediaRecorder.state === "inactive") {
+            setupMediaRecorder();
+        }
+        mediaRecorder.start();
+        setTimeout(() => mediaRecorder.stop(), 10000); // Grabar durante 10 segundos
+    }
+
+    // Subir el video al servidor
+    async function uploadVideo(blob) {
+        loadingSpinner.style.display = 'block';
+
+        const formData = new FormData();
+        formData.append('video', blob, 'recorded_video.mp4');
+
+        try {
+            const response = await fetch('/upload_video', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            displayResults(result);
+            sendNotification(result.anxiety_level);
+        } catch (error) {
+            console.error("Error al subir el video:", error);
+        } finally {
+            loadingSpinner.style.display = 'none';
+        }
+    }
+
+    // Mostrar resultados en pantalla
+    function displayResults(result) {
+        analysisResults.innerHTML = `
+            <div class="result-item">
+                <div><strong>Puntaje promedio de ansiedad:</strong> ${result.anxiety_score.toFixed(2)}%</div>
+                <div><strong>Nivel de ansiedad:</strong> ${result.anxiety_level}</div>
+            </div>
+        `;
+    }
+
+    // Enviar notificación con recomendaciones
+    function sendNotification(anxietyLevel) {
+        const recommendations = {
+            Normal: "¡Todo está bien! Mantén tu día positivo 😊",
+            Leve: "Estás un poco estresado. Tómate 5 minutos para relajarte y respirar profundo.",
+            Moderado: "Parece que estás ansioso. Considera tomar un descanso, salir a caminar o hablar con alguien de confianza.",
+            Severo: "Tu nivel de ansiedad es alto. Intenta desconectarte, practicar mindfulness, o buscar apoyo profesional si es necesario.",
+        };
+
+        if (Notification.permission === 'granted') {
+            new Notification("Detección de Ansiedad", {
+                body: recommendations[anxietyLevel],
+                icon: "https://cdn-icons-png.flaticon.com/512/3237/3237472.png",
+            });
+        } else if (Notification.permission === 'default') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    sendNotification(anxietyLevel);
+                }
+            });
+        }
+    }
+
+    // Configurar análisis periódico
+    function startAnalysisRoutine() {
+        recordVideo(); // Ejecutar inmediatamente
+        setInterval(recordVideo, 300000); // Cada 5 minutos
+        //setInterval(recordVideo, 60000); // Cada 45 segundos
+    }
+
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', () => {
+        Notification.requestPermission(); // Solicitar permiso de notificaciones
+        startCamera().then(startAnalysisRoutine);
+
+        // Detener la cámara al salir
+        window.addEventListener('beforeunload', stopCamera);
+    });
+</script>
+</body>
+</html>

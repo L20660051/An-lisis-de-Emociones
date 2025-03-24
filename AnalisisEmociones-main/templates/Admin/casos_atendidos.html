@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casos Atendidos de Ansiedad</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .filter-section {
+            margin-bottom: 30px;
+        }
+        .table-container {
+            margin-top: 20px;
+        }
+        .pagination {
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .status-resolved {
+            color: green;
+        }
+        .status-in-progress {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="profile">
+            <img src="{{ url_for('static', filename='/Imagen/admin.jpg') }}" alt="Perfil">
+            {% if nombreAdmin %}
+                <h2> {{ nombreAdmin }}</h2>
+            {% else %}
+                <p class="no-records">No hay datos.</p>
+            {% endif %}
+        </div>
+        <nav>
+            <a href="{{ url_for('indexAdmin') }}">Panel de Control</a>
+            <a href="{{ url_for('gestionUsuariosAdmin') }}">Gestión de Usuarios</a>
+            <a href="{{ url_for('casosAtendidosAdmin') }}">Casos Atendidos</a>
+            <!-- <a href="{{ url_for('reportesAdmin') }}">Reportes</a> -->
+        </nav>
+        <footer>
+            <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+        </footer>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h1>Casos Atendidos de Ansiedad</h1>
+        </header>
+
+        <div class="container2">
+            <!-- Filtros para buscar casos atendidos -->
+            <div class="filter-section">
+                <h2>Filtrar Casos</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="status-filter">Filtrar por Estado</label>
+                            <select id="status-filter" class="form-control">
+                                <option value="all">Todos</option>
+                                <option value="resolved">Resueltos</option>
+                                <option value="in-progress">En Progreso</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="date-filter">Filtrar por Fecha</label>
+                            <input type="date" id="date-filter" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de casos atendidos -->
+            <div class="table-container">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Usuarios</th>
+                            <th>Nivel de Ansiedad</th>
+                            <th>Fecha de Atención</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Esmeralda Sanchez</td>
+                            <td>Moderada</td>
+                            <td>2024-09-25</td>
+                            <td class="status-resolved">Resuelto</td>
+                        </tr>
+                        <tr>
+                            <td>Diego Castillo</td>
+                            <td>Moderada</td>
+                            <td>2024-09-23</td>
+                            <td class="status-in-progress">En Progreso</td>
+                        </tr>
+                        <tr>
+                            <td>Jesus Estrada</td>
+                            <td>Alta</td>
+                            <td>2024-09-20</td>
+                            <td class="status-resolved">Resuelto</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            <nav>
+                <ul class="pagination">
+                    <!-- <li class="page-item"><a class="page-link" href="#">Anterior</a></li> -->
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li> -->
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Aquí puedes añadir la lógica de filtrado y paginación.
+        // Ejemplo básico de cómo podrías activar el filtrado por estado o grupo.
+        document.getElementById('group-filter').addEventListener('change', function() {
+            const selectedGroup = this.value;
+            alert("Filtrando por grupo: " + selectedGroup);
+            // Aquí iría la lógica para filtrar los casos por grupo.
+        });
+
+        document.getElementById('status-filter').addEventListener('change', function() {
+            const selectedStatus = this.value;
+            alert("Filtrando por estado: " + selectedStatus);
+            // Aquí iría la lógica para filtrar los casos por estado (Resuelto o En Progreso).
+        });
+    </script>
+
+</body>
+</html>
+

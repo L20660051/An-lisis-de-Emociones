@@ -1,0 +1,339 @@
+/* General */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    /* min-height: 100vh; */
+    /* overflow: hidden; */
+}
+
+/* Sidebar */
+.sidebar {
+    /* background-color: #ebaa48; */
+    background-color: #A36361;
+    width: 250px;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: width 0.3s ease;
+    color: white;
+}
+
+.profile img {
+    width: 120px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile h2 {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+.profile p {
+    color: #444;
+    font-size: 0.9rem;
+}
+
+nav a {
+    color: #000;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 12px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+footer button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+footer button:hover {
+    background-color: #555;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    background-color: #f1f1f1;
+    min-height: 100vh; /* Asegura que ocupe el 100% de la altura de la ventana */
+    overflow-y: auto; /* Permite el desplazamiento vertical */
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s ease;
+}
+
+
+/* Header */
+header {
+    /* background-color: #ebaa48; */
+    background-color: #E8B298;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2rem;
+    color: white;
+    margin: 0;
+}
+
+/* Dashboard Section */
+.dashboard h2 {
+    font-size: 1.5rem;
+    /* color: #ebaa48; */
+    color: black;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Chart Section */
+.analysis {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Search Section */
+.search-container {
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#searchTerm {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    padding-right: 50px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+#searchTerm:focus {
+    border-color: #ebaa48;
+    outline: none;
+}
+
+.search-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.search-btn img {
+    width: 24px;
+    height: 24px;
+    filter: invert(50%);
+    transition: filter 0.3s ease;
+}
+
+.search-btn:hover img {
+    filter: invert(100%);
+}
+
+/* Table */
+#tablaDeAnalisis {
+    overflow-x: auto; /* Permite desplazamiento horizontal */
+    display: flex; /* Flexbox para centrar */
+    justify-content: center; /* Centrar horizontalmente */
+    margin-top: 20px; /* Espaciado superior */
+}
+
+#tablaDeAnalisis table {
+    width: 100%; /* Cambia a 100% para permitir que ocupe todo el ancho disponible */
+    max-width: 800px; /* Establece un ancho máximo para la tabla */
+    margin: 0 auto; /* Centramos la tabla */
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#tablaDeAnalisis th, #tablaDeAnalisis td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    
+}
+
+#tablaDeAnalisis th {
+    /* background-color: #ebaa48; */
+    background-color: #A36361;
+    color: #fff;
+    font-weight: bold;
+    
+}
+
+#tablaDeAnalisis tr:hover {
+    background-color: #f1f1f1;
+}
+
+#tablaDeAnalisis td button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#tablaDeAnalisis td button.btn-primary {
+    /* background-color: #ebaa48; */
+    background-color: #A36361;
+    border: none;
+    color: #fff;
+}
+
+#tablaDeAnalisis td button.btn-primary:hover {
+    /* background-color: #d49040; */
+    background-color: #764342;
+}
+
+#tablaDeAnalisis td button.btn-warning {
+    /* background-color: #ffc107; */
+    background-color: #A36361;
+    border: none;
+    color: #fff;
+}
+
+#tablaDeAnalisis td button.btn-warning:hover {
+    /* background-color: #e0a800; */
+    background-color: #653836;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+.sidebar.dark-mode {
+    background-color: #333;
+}
+
+.profile.dark-mode img {
+    border-color: #666;
+}
+
+nav a.dark-mode {
+    color: white;
+    
+}
+
+nav a.dark-mode:hover {
+    background-color: #444;
+}
+
+.main-content.dark-mode {
+    background-color: #1e1e1e;
+    
+}
+
+.search-container input.dark-mode {
+    background-color: #444;
+    color: white;
+    border-color: #666;
+}
+
+table.dark-mode th, table.dark-mode td {
+    background-color: #444;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .main-content {
+        margin-left: 200px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding-top: 20px;
+    }
+
+    header h1 {
+        font-size: 1.2rem;
+    }
+
+    #searchTerm {
+        font-size: 14px;
+        padding: 8px 20px;
+    }
+
+    #tablaDeAnalisis th, #tablaDeAnalisis td {
+        padding: 8px 10px;
+    }
+
+    #tablaDeAnalisis td button {
+        font-size: 0.8rem;
+    }
+
+    .profile img {
+        width: 80px;
+    }
+}
+
+
+#chartContainer {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#ansiedadChart {
+    width: 100%; /* Asegura que la gráfica ocupe todo el ancho disponible */
+    height: 300px; /* Establece la altura de la gráfica */
+}
+
+/* Estilo personalizado para botones en naranja */
+.btn-naranja {
+    background-color: #ebaa48; /* Color naranja */
+    border: none;
+    color: #fff;
+}
+
+.btn-naranja:hover {
+    background-color: #d49040;
+}

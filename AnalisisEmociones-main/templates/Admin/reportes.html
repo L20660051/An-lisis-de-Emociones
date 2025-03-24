@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generación de Reportes Emocionales</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .container1 {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .filter-section {
+            margin-bottom: 30px;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        #report-chart {
+            max-height: 400px;
+        }
+        .modal-body {
+            background-color: #f9f9f9;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="profile">
+            <img src="./Imagen/admin.jpg" alt="Perfil">
+            <h2>Anne López Martínez</h2>
+            <p>anne_lo1234@gmail.com</p>
+        </div>
+        <nav>
+            <a href="{{ url_for('indexAdmin') }}">Panel de Control</a>
+            <a href="{{ url_for('gestionUsuariosAdmin') }}">Gestión de Usuarios</a>
+            <a href="{{ url_for('casosAtendidosAdmin') }}">Casos Atendidos</a>
+            <!-- <a href="{{ url_for('reportesAdmin') }}">Reportes</a> -->
+        </nav>
+        <footer>
+            <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+        </footer>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h1>Generación de Reportes Emocionales</h1>
+        </header>
+
+        <div class="container1">
+            <!-- Sección de Filtros -->
+            <div class="filter-section">
+                <h2>Filtros para Reportes</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="group-filter">Seleccionar Grupo</label>
+                            <select id="group-filter" class="form-control">
+                                <option value="all">Todos los Grupos</option>
+                                <option value="10A">Clase 10A</option>
+                                <option value="10B">Clase 10B</option>
+                                <option value="11A">Clase 11A</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="student-filter">Seleccionar Alumno</label>
+                            <select id="student-filter" class="form-control">
+                                <option value="all">Todos los Alumnos</option>
+                                <option value="1">Juan Pérez</option>
+                                <option value="2">María García</option>
+                                <option value="3">Pedro Martínez</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="emotion-filter">Filtrar por Emoción</label>
+                            <select id="emotion-filter" class="form-control">
+                                <option value="all">Todas</option>
+                                <option value="anxiety">Ansiedad</option>
+                                <option value="sadness">Tristeza</option>
+                                <option value="happiness">Felicidad</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="start-date">Desde</label>
+                            <input type="date" id="start-date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="end-date">Hasta</label>
+                            <input type="date" id="end-date" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones para Generar Reporte y Exportar -->
+            <div class="section text-center">
+                <button class="btn btn-primary btn-lg mb-3" data-toggle="modal" data-target="#reportModal">Generar Reporte</button>
+                <div>
+                    <button class="btn btn-secondary" onclick="exportPDF()">Exportar a PDF</button>
+                    <button class="btn btn-secondary" onclick="exportExcel()">Exportar a Excel/CSV</button>
+                </div>
+            </div>
+
+            <!-- Modal para Visualización del Reporte -->
+            <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reportModalLabel">Reporte Emocional</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h2>Niveles Emocionales</h2>
+                            <p>A continuación, se presenta un resumen de los niveles emocionales detectados entre los alumnos en el período seleccionado.</p>
+                            
+                            <div id="report-info" class="mb-4">
+                                <h4>Grupo: Clase 10A</h4>
+                                <p><strong>Alumnos con Niveles Altos de Ansiedad:</strong></p>
+                                <ul>
+                                    <li>Juan Pérez - Ansiedad Alta</li>
+                                    <li>María García - Ansiedad Moderada</li>
+                                    <li>Pedro Martínez - Ansiedad Alta</li>
+                                </ul>
+                            </div>
+
+                            <canvas id="report-chart"></canvas>
+                            <p>Este gráfico muestra la distribución de los niveles emocionales: bajo, moderado y alto. Un aumento en los niveles altos puede indicar la necesidad de intervención.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function generateReport() {
+            const labels = ['Bajo', 'Moderado', 'Alto'];
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'Niveles Emocionales',
+                    data: [12, 19, 8], // Simulación de datos
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+
+            const ctx = document.getElementById('report-chart').getContext('2d');
+            new Chart(ctx, config);
+        }
+
+        // Evento para generar el reporte al abrir el modal
+        $('#reportModal').on('show.bs.modal', function () {
+            generateReport();
+        });
+
+        function exportPDF() {
+            // Funcionalidad para exportar a PDF
+            alert("Exportando a PDF...");
+        }
+
+        function exportExcel() {
+            // Funcionalidad para exportar a Excel/CSV
+            alert("Exportando a Excel/CSV...");
+        }
+
+        // Obtiene todos los enlaces del sidebar
+        const links = document.querySelectorAll('.sidebar nav a');
+
+        // Obtiene la URL actual sin el dominio y sin el directorio
+        const currentPath = window.location.pathname.split('/').pop(); // Toma solo el archivo actual
+
+        // Recorre los enlaces y compara con la URL actual
+        links.forEach(link => {
+            const linkPath = link.getAttribute('href').split('/').pop(); // Toma solo el archivo del href
+            if (linkPath === currentPath) {
+                // Añade la clase "active" al enlace cuyo href coincida con la URL
+                link.classList.add('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+
+
+

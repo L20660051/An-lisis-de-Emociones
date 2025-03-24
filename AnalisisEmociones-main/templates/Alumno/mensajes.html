@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes - Alumno</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* General */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: #A36361;
+            width: 250px;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .sidebar:hover {
+            background-color: #764342;
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile img {
+            width: 120px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile h2 {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: white;
+        }
+
+        .profile p {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        nav a {
+            color: #fff;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 12px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        nav a i {
+            margin-right: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        /* Header */
+        header {
+            background-color: #A36361;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-bottom: 4px solid #764342;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        /* Mensajes Section */
+        .mensajes-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 100%;
+            margin-top: 30px;
+        }
+
+        .mensajes-title {
+            font-size: 2rem;
+            color: black;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .message-card {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+
+        .message-card:hover {
+            transform: scale(1.02);
+        }
+
+        .message-title {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .message-content {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .message-date {
+            font-size: 0.9rem;
+            color: #999;
+            text-align: right;
+        }
+
+        .details-button {
+            background-color: #A36361;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .details-button:hover {
+            background-color: #764342;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            /* background-color: #ebaa48; */
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        footer button {
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        footer button:hover {
+            background-color: #764342;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main-content {
+                margin-left: 200px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .configuracion-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .configuracion-title {
+            font-size: 2rem;
+            color: black;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .configuracion-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .configuracion-item:hover {
+            background-color: #e2e6ea;
+        }
+
+        .configuracion-label {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .configuracion-button {
+            background-color: #A36361;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .configuracion-button:hover {
+            background-color: #764342;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal-header {
+            background-color: #A36361;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div style = "display: none;"> 
+        <div class="container">
+            <h1>Detección de Ansiedad</h1>
+            <div class="content">
+                <video id="camera" autoplay muted playsinline></video>
+                <div class="level-display">
+                    La cámara está activa para el análisis.
+                </div>
+            </div>
+            <div class="spinner-border text-warning spinner" id="loading-spinner" role="status" style="display: none;">
+                <span class="visually-hidden">Analizando...</span>
+            </div>
+            <div class="results-box">
+                <h3>Resultados del Análisis</h3>
+                <div id="analysis-results">
+                    <!-- Los resultados del análisis se mostrarán aquí -->
+                </div>
+            </div>
+        </div> 
+    </div>
+
+
+
+
+
+
+
+
+    <div class="sidebar">
+        <div class="profile">
+            <img src="{{ url_for('static', filename='/usuario.jpg') }}" alt="Perfil">
+            {% if nombreAlumno %}
+                <h2> {{ nombreAlumno }}</h2>
+            {% else %}
+                <p class="no-records">No hay datos.</p>
+            {% endif %}
+        </div>
+        <nav>
+        <a href="{{ url_for('indexAlumno') }}"><i class="fas fa-home"></i> Inicio</a>
+        <a href="{{ url_for('historialAlumno') }}"><i class="fas fa-history"></i> Historial</a>
+        <a href="{{ url_for('mensajesAlumno') }}"><i class="fas fa-comments"></i> Mensajes</a>
+        <a href="{{ url_for('configuracionAlumno') }}"><i class="fas fa-cog"></i> Configuración</a>
+        <a href="{{ url_for('encuestasAlumno') }}"><i class="fas fa-poll"></i> Encuestas</a>
+        <a href="{{ url_for('recursosAlumno') }}"><i class="fas fa-book"></i> Recursos</a>
+        <!-- <a href="{{ url_for('analisis') }}"><i class="fas fa-camera"></i> Detección</a> -->
+    </nav>
+    <footer>
+        <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+    </footer>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="main-content">
+    <header>
+        <h1>Tus Mensajes</h1>
+    </header>
+
+    <div class="configuracion-container mt-4">
+        <h2 class="configuracion-title text-center">Enviar mensaje</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-4 d-flex justify-content-center">
+                <!-- Botón para abrir el modal -->
+                <button type="button" class="btn configuracion-button" data-bs-toggle="modal" data-bs-target="#mensajeModal">
+                    Escribir mensaje
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mensajeModalLabel">Enviar mensaje al psicólogo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <form id="mensajeForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="asunto" class="form-label">Para</label>
+                            <select class="form-control" id="destinatario" name="destinatario" required>
+                                <option value="" disabled selected>Seleccione una opción</option> <!-- Opción en blanco -->
+                                {% for usuario in psicologo %}
+                                    <option value="{{ usuario[1] }}">{{ usuario[0] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="asunto" class="form-label">Asunto</label>
+                            <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Escribe el asunto del mensaje" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="mensaje" class="form-label">Mensaje</label>
+                            <textarea class="form-control" id="mensaje" name="mensaje" rows="5" placeholder="Escribe tu mensaje aquí" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn configuracion-button">Enviar mensaje</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje de confirmación -->
+    <div id="confirmacionMensaje" class="alert alert-success text-center mt-3" style="display: none;">
+        <strong>¡Mensaje enviado con éxito!</strong>
+    </div>
+
+
+
+
+
+
+    <!-- Lista de mensajes -->
+    <div class="mensajes-container mt-5">
+        <h2 class="mensajes-title">Lista de Mensajes</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for mensaje in mensajes %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ mensaje[5] }}</h5>
+                        <p class="card-text">{{ mensaje[6] | truncate(100, True) }}</p>
+                        <p class="card-text"><small class="text-muted">{{ mensaje[3] }}</small></p>
+                        <!-- Botón para abrir el modal de detalles -->
+                        <button class="details-button" data-id="{{ mensaje[0] }}" data-mensaje="{{ mensaje[6] }}" data-bs-toggle="modal" data-bs-target="#detalleModal">Ver Detalles</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Modal para ver los detalles del mensaje -->
+    <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detalleModalLabel">Detalles del Mensaje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="mensajeCompleto"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Cuando se abra el modal de detalles, llenar el contenido
+    $('#detalleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);  // El botón que activó el modal
+        var mensajeId = button.data('id');  // El ID del mensaje
+        var mensajeCompleto = button.data('mensaje');  // El contenido del mensaje completo
+
+        // Mostrar el mensaje completo en el modal
+        var modal = $(this);
+        modal.find('.modal-body #mensajeCompleto').text(mensajeCompleto);
+
+        // Llamada AJAX para marcar el mensaje como leído
+        $.ajax({
+            url: '/marcar_leido',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ 'idmensaje': mensajeId }),
+            success: function(response) {
+                if (response.success) {
+                    console.log('Mensaje marcado como leído');
+                } else {
+                    console.error('Error al marcar como leído');
+                }
+            },
+            error: function(error) {
+                console.error('Error al hacer la solicitud AJAX');
+            }
+        });
+    });
+</script>
+
+
+<script>
+  document.getElementById('mensajeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+    
+            // Recogemos los datos del formulario
+            const asunto = document.getElementById('asunto').value;
+            const destinatario = document.getElementById('destinatario').value;
+            const mensaje = document.getElementById('mensaje').value;
+    
+            if (!asunto || !mensaje) {
+                alert("Por favor, complete todos los campos.");
+                return;
+            }
+    
+            // Hacemos una solicitud POST al backend
+            fetch('/enviarMensaje', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    asunto: asunto,
+                    destinatario: destinatario,
+                    mensaje: mensaje
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mostramos el mensaje de confirmación
+                    document.getElementById('confirmacionMensaje').style.display = 'block';
+                    // Limpiamos el formulario
+                    document.getElementById('mensajeForm').reset();
+                    // Cerrar el modal
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('mensajeModal'));
+                    modal.hide();
+                } else {
+                    alert("Hubo un error al enviar el mensaje.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Hubo un error al enviar el mensaje.");
+            });
+        });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script>
+    let mediaRecorder, recordedChunks = [], cameraStream;
+
+    const cameraElement = document.getElementById('camera');
+    const analysisResults = document.getElementById('analysis-results');
+    const loadingSpinner = document.getElementById('loading-spinner');
+
+    // Activar la cámara
+    async function startCamera() {
+        cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        cameraElement.srcObject = cameraStream;
+    }
+
+    // Detener la cámara
+    function stopCamera() {
+        if (cameraStream) {
+            const tracks = cameraStream.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+        cameraElement.srcObject = null;
+    }
+
+    // Configurar MediaRecorder para grabar video
+    function setupMediaRecorder() {
+        mediaRecorder = new MediaRecorder(cameraStream);
+        
+        mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                recordedChunks.push(event.data);
+            }
+        };
+
+        mediaRecorder.onstop = () => {
+            const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+            recordedChunks = []; // Limpiar buffer
+            uploadVideo(videoBlob);
+        };
+    }
+
+    // Iniciar grabación de video
+    function recordVideo() {
+        if (!mediaRecorder || mediaRecorder.state === "inactive") {
+            setupMediaRecorder();
+        }
+        mediaRecorder.start();
+        setTimeout(() => mediaRecorder.stop(), 10000); // Grabar durante 10 segundos
+    }
+
+    // Subir el video al servidor
+    async function uploadVideo(blob) {
+        loadingSpinner.style.display = 'block';
+
+        const formData = new FormData();
+        formData.append('video', blob, 'recorded_video.mp4');
+
+        try {
+            const response = await fetch('/upload_video', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            displayResults(result);
+            sendNotification(result.anxiety_level);
+        } catch (error) {
+            console.error("Error al subir el video:", error);
+        } finally {
+            loadingSpinner.style.display = 'none';
+        }
+    }
+
+    // Mostrar resultados en pantalla
+    function displayResults(result) {
+        analysisResults.innerHTML = `
+            <div class="result-item">
+                <div><strong>Puntaje promedio de ansiedad:</strong> ${result.anxiety_score.toFixed(2)}%</div>
+                <div><strong>Nivel de ansiedad:</strong> ${result.anxiety_level}</div>
+            </div>
+        `;
+    }
+
+    // Enviar notificación con recomendaciones
+    function sendNotification(anxietyLevel) {
+        const recommendations = {
+            Normal: "¡Todo está bien! Mantén tu día positivo 😊",
+            Leve: "Estás un poco estresado. Tómate 5 minutos para relajarte y respirar profundo.",
+            Moderado: "Parece que estás ansioso. Considera tomar un descanso, salir a caminar o hablar con alguien de confianza.",
+            Severo: "Tu nivel de ansiedad es alto. Intenta desconectarte, practicar mindfulness, o buscar apoyo profesional si es necesario.",
+        };
+
+        if (Notification.permission === 'granted') {
+            new Notification("Detección de Ansiedad", {
+                body: recommendations[anxietyLevel],
+                icon: "https://cdn-icons-png.flaticon.com/512/3237/3237472.png",
+            });
+        } else if (Notification.permission === 'default') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    sendNotification(anxietyLevel);
+                }
+            });
+        }
+    }
+
+    // Configurar análisis periódico
+    function startAnalysisRoutine() {
+        recordVideo(); // Ejecutar inmediatamente
+        setInterval(recordVideo, 300000); // Cada 5 minutos
+        //setInterval(recordVideo, 60000); // Cada 45 segundos
+    }
+
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', () => {
+        Notification.requestPermission(); // Solicitar permiso de notificaciones
+        startCamera().then(startAnalysisRoutine);
+
+        // Detener la cámara al salir
+        window.addEventListener('beforeunload', stopCamera);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes - Psicólogo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylePsicologo.css') }}">
+    <style>
+        /* Estilo para las tarjetas de mensajes */
+        .message-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+        .message-card:hover {
+            transform: scale(1.02);
+        }
+        .message-card h5 {
+            color: black; /* Color principal */
+        }
+        .message-date {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .message-content {
+            margin-top: 10px;
+            color: #333;
+        }
+
+
+
+
+
+
+        .configuracion-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .configuracion-title {
+            font-size: 2rem;
+            color: black;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .configuracion-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .configuracion-item:hover {
+            background-color: #e2e6ea;
+        }
+
+        .configuracion-label {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .configuracion-button {
+            background-color: #A36361;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .configuracion-button:hover {
+            background-color: #764342;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal-header {
+            background-color: #A36361;
+            color: white;
+        }
+
+
+
+        
+
+
+
+
+
+
+
+        
+
+        /* Mensajes Section */
+        .mensajes-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 100%;
+            margin-top: 30px;
+        }
+
+        .mensajes-title {
+            font-size: 2rem;
+            color: black;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .message-card {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+
+        .message-card:hover {
+            transform: scale(1.02);
+        }
+
+        .message-title {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .message-content {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .message-date {
+            font-size: 0.9rem;
+            color: #999;
+            text-align: right;
+        }
+
+        .details-button {
+            background-color: #A36361;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .details-button:hover {
+            background-color: #764342;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="d-flex flex-column flex-lg-row">
+        <div class="sidebar">
+            <div class="profile text-center">
+                <img src="{{ url_for('static', filename='/Imagen/PSICOLOGA.jpg') }}" alt="Perfil">
+                {% if nombrePsicologo %}
+                    <h2> {{ nombrePsicologo }}</h2>
+                {% else %}
+                    <p class="no-records">No hay datos.</p>
+                {% endif %}
+            </div>
+            <nav class="mt-4">
+                <a href="{{ url_for('indexPsicologo') }}" class="d-block py-2 text-decoration-none active">Resultados de análisis</a>
+                <a href="{{ url_for('informacionPsicologo') }}" class="d-block py-2 text-decoration-none">Información</a>
+                <a href="{{ url_for('alumnosPsicologo') }}" class="d-block py-2 text-decoration-none">Usuarios</a>
+                <a href="{{ url_for('mensajesPsicologo') }}" class="d-block py-2 text-decoration-none">Mensajes</a>
+                <a href="{{ url_for('configuracionPsicologo') }}" class="d-block py-2 text-decoration-none">Configuración</a>
+            </nav>
+            <footer>
+                <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+              </footer>
+        </div>
+
+        <div class="main-content p-4 flex-grow-1">
+            <header class="mb-4">
+                <h1 class="text-center">Mensajes</h1>
+            </header>
+
+
+            <div class="configuracion-container mt-4">
+                <h2 class="configuracion-title text-center">Enviar mensaje</h2>
+                <div class="row justify-content-center">
+                    <div class="col-md-4 d-flex justify-content-center">
+                        <!-- Botón para abrir el modal -->
+                        <button type="button" class="btn configuracion-button" data-bs-toggle="modal" data-bs-target="#mensajeModal">
+                            Escribir mensaje
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mensajeModalLabel">Enviar mensaje al psicólogo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <form id="mensajeForm">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="asunto" class="form-label">Para</label>
+                                    <select class="form-control" id="destinatario" name="destinatario" required>
+                                        <option value="" disabled selected>Seleccione una opción</option> <!-- Opción en blanco -->
+                                        {% for usuario in alumnos %}
+                                            <option value="{{ usuario[1] }}">{{ usuario[0] }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="asunto" class="form-label">Asunto</label>
+                                    <input type="text" class="form-control" id="asunto" name="asunto" placeholder="Escribe el asunto del mensaje" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="mensaje" class="form-label">Mensaje</label>
+                                    <textarea class="form-control" id="mensaje" name="mensaje" rows="5" placeholder="Escribe tu mensaje aquí" required></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn configuracion-button">Enviar mensaje</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Mensaje de confirmación -->
+            <div id="confirmacionMensaje" class="alert alert-success text-center mt-3" style="display: none;">
+                <strong>¡Mensaje enviado con éxito!</strong>
+            </div>
+
+
+
+
+
+
+
+
+
+
+                <div class="mensajes-container mt-5">
+                    <h2 class="mensajes-title">Lista de Mensajes</h2>
+                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                        {% for mensaje in mensajes %}
+                        <div class="col">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ mensaje[2] }}</h5>
+                                    <p class="card-text"><strong>De:</strong> {{ mensaje[4] }}</p>
+                                    <p class="card-text">{{ mensaje[3] | truncate(100, True) }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ mensaje[1] }}</small></p>
+                                    <!-- Botón para abrir el modal de detalles -->
+                                    <button class="details-button" data-id="{{ mensaje[0] }}" data-mensaje="{{ mensaje[3] }}" data-bs-toggle="modal" data-bs-target="#detalleModal">Ver Detalles</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            
+                <!-- Modal para ver los detalles del mensaje -->
+                <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="detalleModalLabel">Detalles del Mensaje</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p id="mensajeCompleto"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+    
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                // Cuando se abra el modal de detalles, llenar el contenido
+                $('#detalleModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);  // El botón que activó el modal
+                    var mensajeId = button.data('id');  // El ID del mensaje
+                    var mensajeCompleto = button.data('mensaje');  // El contenido del mensaje completo
+            
+                    // Mostrar el mensaje completo en el modal
+                    var modal = $(this);
+                    modal.find('.modal-body #mensajeCompleto').text(mensajeCompleto);
+            
+                    // Llamada AJAX para marcar el mensaje como leído
+                    $.ajax({
+                        url: '/marcar_leido',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ 'idmensaje': mensajeId }),
+                        success: function(response) {
+                            if (response.success) {
+                                console.log('Mensaje marcado como leído');
+                            } else {
+                                console.error('Error al marcar como leído');
+                            }
+                        },
+                        error: function(error) {
+                            console.error('Error al hacer la solicitud AJAX');
+                        }
+                    });
+                });
+            </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Capturamos el evento de envío del formulario
+        document.getElementById('mensajeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+    
+            // Recogemos los datos del formulario
+            const asunto = document.getElementById('asunto').value;
+            const destinatario = document.getElementById('destinatario').value;
+            const mensaje = document.getElementById('mensaje').value;
+    
+            if (!asunto || !mensaje) {
+                alert("Por favor, complete todos los campos.");
+                return;
+            }
+    
+            // Hacemos una solicitud POST al backend
+            fetch('/enviarMensaje', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    asunto: asunto,
+                    destinatario: destinatario,
+                    mensaje: mensaje
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mostramos el mensaje de confirmación
+                    document.getElementById('confirmacionMensaje').style.display = 'block';
+                    // Limpiamos el formulario
+                    document.getElementById('mensajeForm').reset();
+                    // Cerrar el modal
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('mensajeModal'));
+                    modal.hide();
+                } else {
+                    alert("Hubo un error al enviar el mensaje.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Hubo un error al enviar el mensaje.");
+            });
+        });
+    </script>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

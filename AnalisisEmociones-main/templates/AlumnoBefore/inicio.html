@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Alumno</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <!-- Información Personal -->
+    <section class="personal-info mb-5">
+        <h2 class="text-center">Información Personal</h2>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="ruta-a-la-imagen-del-estudiante" alt="Foto de Perfil" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+            </div>
+            <div class="col-md-8">
+                <p><strong>Nombre Completo:</strong> Juan Pérez</p>
+                <p><strong>ID del Estudiante:</strong> STU123456</p>
+                <p><strong>Grado y Clases:</strong> 5to Grado, Matemáticas, Ciencias, Historia</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resultados de Detección de Ansiedad -->
+    <section class="anxiety-results mb-5">
+        <h2 class="text-center">Resultados de Detección de Ansiedad</h2>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <p><strong>Nivel de Ansiedad Actual:</strong></p>
+                <span class="badge bg-warning text-dark">Moderado</span>
+            </div>
+            <div class="col-md-8">
+                <h5>Historial de Ansiedad</h5>
+                <canvas id="anxietyChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notificaciones -->
+    <section class="notifications mb-5">
+        <h2 class="text-center">Notificaciones</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Mensaje de Psicólogo: Sesión de seguimiento programada para el viernes.</li>
+            <li class="list-group-item">Alerta: Tu nivel de ansiedad ha aumentado, realiza un análisis emocional.</li>
+        </ul>
+    </section>
+
+    <!-- Configuración y Privacidad -->
+    <section class="settings mb-5">
+        <h2 class="text-center">Configuración y Privacidad</h2>
+        <div class="form-group">
+            <label for="privacySettings">Configuración de Privacidad</label>
+            <select class="form-control" id="privacySettings">
+                <option>Solo Psicólogos y Profesores</option>
+                <option>Administradores Incluidos</option>
+            </select>
+        </div>
+        <div class="form-group mt-3">
+            <label for="notificationPreferences">Preferencias de Notificaciones</label>
+            <select class="form-control" id="notificationPreferences">
+                <option>Correo Electrónico</option>
+                <option>SMS</option>
+                <option>Notificaciones en la Plataforma</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Recursos de Apoyo Emocional -->
+    <section class="resources mb-5">
+        <h2 class="text-center">Recursos de Apoyo Emocional</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Ejercicio de Respiración: <a href="#">Ver Video</a></li>
+            <li class="list-group-item">Contactos de Ayuda: <a href="#">Departamento de Psicología</a></li>
+            <li class="list-group-item">Material Educativo: <a href="#">Cómo manejar el estrés y la ansiedad</a></li>
+        </ul>
+    </section>
+</div>
+
+<!-- Chart.js for Anxiety Graph -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('anxietyChart').getContext('2d');
+    const anxietyChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril'],
+            datasets: [{
+                label: 'Nivel de Ansiedad',
+                data: [30, 45, 60, 50],
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 2,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

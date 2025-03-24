@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="flex-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+          <div class="profile">
+
+            <img src="{{ url_for('static', filename='/Imagen/admin.jpg') }}" alt="Perfil">
+            {% if nombreAdmin %}
+                <h2> {{ nombreAdmin }}</h2>
+            {% else %}
+                <p class="no-records">No hay datos.</p>
+            {% endif %}
+              <!-- <p>anne_lo1234@gmail.com</p> -->
+          </div>
+          <nav>
+              <a href="{{ url_for('indexAdmin') }}">Panel de Control</a>
+              <a href="{{ url_for('gestionUsuariosAdmin') }}">Gestión de Usuarios</a>
+              <a href="{{ url_for('casosAtendidosAdmin') }}">Casos Atendidos</a>
+              <!-- <a href="{{ url_for('reportesAdmin') }}">Reportes</a> -->
+          </nav>
+          <footer>
+            <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+          </footer>
+      </div>
+  </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+          <header>
+              <h1>Bienvenido Administrador</h1>
+          </header>
+
+          <!-- Barra de búsqueda y notificación -->
+          <div class="top-bar">
+              <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/41d34fc2fe4611cc421c5434765c9029e237c224ab9513d479185205bfab51ec?placeholderIfAbsent=true&apiKey=749dc98f0e3f41e18999dc4058eb8cf0" alt="Notifications" class="notification-icon" />
+          </div>
+
+          <!-- Estadísticas -->
+          <div class="stats-grid">
+              <div class="stat-card">
+                  <img src="{{ url_for('static', filename='/Imagen/usuarios_total.png') }}" alt="" class="stat-icon" />
+                  <div class="stat-content">
+                      <span class="stat-value">{% if totalAlumnos %}
+                         {{ totalAlumnos }}
+                         {% else %}
+                        <p class="no-records">No hay datos.</p>
+                         {% endif %}
+                        </span>
+                      <span class="stat-label">Total Usuarios</span>
+                  </div>
+              </div>
+              <div class="stat-card">
+                  <img src="{{ url_for('static', filename='/Imagen/leve.png') }}" alt="" class="stat-icon" />
+                  <div class="stat-content">
+                      <span class="stat-value">{% if totalLeve %}
+                        {{ totalLeve }}
+                        {% else %}
+                       <p class="no-records">No hay datos.</p>
+                        {% endif %}</span>
+                      <span class="stat-label">Casos de Ansiedad Leve</span>
+                  </div>
+              </div>
+              <div class="stat-card">
+                  <img src="{{ url_for('static', filename='/Imagen/moderado.png') }}" alt="" class="stat-icon" />
+                  <div class="stat-content">
+                      <span class="stat-value">{% if totalModerado %}
+                        {{ totalModerado }}
+                        {% else %}
+                       <p class="no-records">0.</p>
+                        {% endif %}</span>
+                      <span class="stat-label">Casos de Ansiedad Moderada</span>
+                  </div>
+              </div>
+              <div class="stat-card">
+                  <img src="{{ url_for('static', filename='/Imagen/grave.png') }}" alt="" class="stat-icon" />
+                  <div class="stat-content">
+                      <span class="stat-value">{% if totalSevero %}
+                        {{ totalSevero }}
+                        {% else %}
+                       <p class="no-records">0.</p>
+                        {% endif %}</span>
+                      <span class="stat-label">Casos de Ansiedad Grave</span>
+                  </div>
+              </div>
+          </div>
+
+          <div class="container mt-5"> <!-- Agregado margen superior -->
+            <div class="row">
+                <!-- Gráfico de Barras Vertical -->
+                <section class="group-stats mb-5 col-md-6"> <!-- Columna más ancha -->
+                    <h2 class="group-title mb-4 text-center">Niveles de ansiedad detectados</h2>
+                    <div class="chart-container" style="position: relative; width: 100%; max-width: 100%; height: 500px;"> <!-- Usar 100% para ancho -->
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Gráficos Circulares de Ansiedad -->
+                <section class="anxiety-levels mb-5 col-md-6">
+                    <h2 class="anxiety-title mb-4 text-center">Niveles de Ansiedad detectados en la Institución</h2>
+                    <div class="row text-center">
+                        
+
+                        <div class="col-md-12 mb-4">
+                            <div class="progress-circle">
+                                <svg viewBox="0 0 36 36" class="circular-chart green" style="width: 190px; height: 190px;"> <!-- Aumentar tamaño -->
+                                    <path class="circle-bg"
+                                          d="M18 2.0845
+                                             a 15.9155 15.9155 0 0 1 0 31.831
+                                             a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle" d="M18 2.0845
+                                             a 15.9155 15.9155 0 0 1 0 31.831
+                                             a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                             <text x="18" y="20.35" class="percentage">
+                                                {% if totalNormal %}
+                                                    {{ ((totalNormal / totalCasos) * 100) | round(2) }}
+                                                {% else %}
+                                                    0
+                                                {% endif %}%
+                                            </text>
+                                            
+                                            
+                                </svg>
+                            </div>
+                            <p class="mt-2" style="font-size: 24px;">Normal</p>
+                        </div>
+
+
+                        <div class="col-md-12 mb-4">
+                            <div class="progress-circle">
+                                <svg viewBox="0 0 36 36" class="circular-chart orange" style="width: 190px; height: 190px;"> <!-- Aumentar tamaño -->
+                                    <path class="circle-bg"
+                                          d="M18 2.0845
+                                             a 15.9155 15.9155 0 0 1 0 31.831
+                                             a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle" d="M18 2.0845
+                                             a 15.9155 15.9155 0 0 1 0 31.831
+                                             a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="20.35" class="percentage">{% if totalLeve %}
+                                        {{ ((totalLeve / totalCasos)* 100) | round(2) }}
+                                        {% else %} 0 {% endif %}%</text>
+                                </svg>
+                            </div>
+                            <p class="mt-2" style="font-size: 24px;">Leve</p>
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <div class="progress-circle">
+                                <svg viewBox="0 0 36 36" class="circular-chart yellow" style="width: 190px; height: 190px;"> <!-- Aumentar tamaño -->
+                                    <path class="circle-bg"
+                                          d="M18 2.0845
+                                             a 15.9155 15.9155 0 0 1 0 31.831
+                                             a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle" d="M18 2.0845
+                                             a 15.9155 15.9155 0 0 1 0 31.831
+                                             a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="20.35" class="percentage">{% if totalModerado %}
+                                        {{ ((totalModerado / totalCasos) * 100) | round(2) }}
+                                        {% else %} 0 {% endif %}%</text>
+                                </svg>
+                            </div>
+                            <p class="mt-2" style="font-size: 24px;">Moderada</p> <!-- Aumentar tamaño -->
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <div class="progress-circle">
+                                <svg viewBox="0 0 36 36" class="circular-chart red" style="width: 190px; height: 190px;"> <!-- Aumentar tamaño -->
+                                    <path class="circle-bg"
+                                          d="M18 2.0845
+                                             a 15.9155 15.9155 0 0 1 0 31.831
+                                             a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle" d="M18 2.0845
+                                             a 15.9155 15.9155 0 0 1 0 31.831
+                                             a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="20.35" class="percentage">{% if totalSevero %}
+                                        {{ (totalSevero / totalCasos) * 100 }}
+                                        {% else %} 0 {% endif %}%</text>
+                                </svg>
+                            </div>
+                            <p class="mt-2" style="font-size: 24px;">Grave</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>        
+        
+      </div>
+  </div>
+
+    <div style = "display: none;">
+        <p id="totalAlumnos" data-value="{{ totalAlumnos }}"></p>
+        <p id="totalLeve" data-value="{{ totalLeve }}"></p>
+        <p id="totalModerado" data-value="{{ totalModerado }}"></p>
+        <p id="totalSevero" data-value="{{ totalSevero }}"></p>
+        <p id="totalCasos" data-value="{{ totalCasos }}"></p>
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+
+        const totalCasos = document.getElementById("totalCasos").dataset.value;
+        const totalLeve = document.getElementById("totalLeve").dataset.value;
+        const totalModerado = document.getElementById("totalModerado").dataset.value;
+        const totalSevero = document.getElementById("totalSevero").dataset.value;
+
+
+        const labels = ['Ansiedad Leve', 'Ansiedad Moderada', 'Ansiedad Grave'];
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Cantidad de Alumnos',
+                data: [parseInt(totalLeve), parseInt(totalModerado), parseInt(totalSevero)], // Datos de los grupos
+                backgroundColor: [
+                    'rgba(0, 123, 255, 0.8)', // Grupo A
+                    'rgba(40, 167, 69, 0.8)',  // Grupo B
+                    'rgba(255, 193, 7, 0.8)',   // Grupo C
+                ],
+                borderColor: [
+                    'rgba(0, 123, 255, 1)', 
+                    'rgba(40, 167, 69, 1)',  
+                    'rgba(255, 193, 7, 1)' 
+                ],
+                borderWidth: 2 // Aumentar el ancho de borde
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Mantener el aspecto
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cantidad de Alumnos',
+                            font: {
+                                size: 30 // Tamaño de la fuente para el título
+                            }
+                        },
+                        ticks: {
+                            stepSize: 10, // Espaciado de los ticks en el eje Y
+                            color: '#333', // Color de los ticks
+                            font: {
+                                size: 20 // Tamaño de la fuente de los ticks
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: '', // escribir en el eje x
+                            font: {
+                                size: 40 // Tamaño de la fuente para el título
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false, // Ocultar leyenda
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)', // Fondo del tooltip
+                        bodyColor: '#fff', // Color del texto del tooltip
+                        titleColor: '#fff' // Color del título del tooltip
+                    }
+                }
+            }
+        };
+
+        // Renderizar el gráfico
+        const barChart = new Chart(
+            document.getElementById('barChart'),
+            config
+        );
+    </script>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      function toggleTheme() {
+          document.body.classList.toggle("dark-theme");
+      }
+
+      // Animar los gráficos circulares al cargar la página
+      document.addEventListener("DOMContentLoaded", function() {
+        const circles = document.querySelectorAll('.progress-circle');
+
+        circles.forEach(circle => {
+            const percentageText = circle.querySelector('.percentage').textContent;
+            const percentageValue = parseFloat(percentageText); // Convertir texto a número
+
+            const circlePath = circle.querySelector('.circle');
+            
+            // Cambia el valor de stroke-dasharray basado en el porcentaje
+            const dashArray = `${percentageValue}, 100`;
+            circlePath.setAttribute('stroke-dasharray', dashArray);
+        });
+    });
+
+  </script>
+
+<script>
+    // Obtiene todos los enlaces del sidebar
+    const links = document.querySelectorAll('.sidebar nav a');
+
+    // Obtiene la URL actual sin el dominio y sin el directorio
+    const currentPath = window.location.pathname.split('/').pop(); // Toma solo el archivo actual
+
+    // Recorre los enlaces y compara con la URL actual
+    links.forEach(link => {
+        const linkPath = link.getAttribute('href').split('/').pop(); // Toma solo el archivo del href
+        if (linkPath === currentPath) {
+            // Añade la clase "active" al enlace cuyo href coincida con la URL
+            link.classList.add('active');
+        }
+    });
+</script>
+
+</body>
+</html>
+
+
+
+    
+    
+    
+    

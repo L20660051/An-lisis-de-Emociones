@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Alumno</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            display: flex;
+            overflow: hidden; /* Evitar el desplazamiento no deseado */
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: #ebaa48;
+            width: 250px;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .sidebar:hover {
+            background-color: #d49040;
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile img {
+            width: 120px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile h2 {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: white;
+        }
+
+        .profile p {
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        nav a {
+            color: #fff;
+            font-size: 1rem;
+            text-decoration: none;
+            padding: 12px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        nav a i {
+            margin-right: 10px; /* Espacio entre ícono y texto */
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1;
+            transition: margin-left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centrar el contenido */
+        }
+
+        /* Header */
+        header {
+            background-color: #ebaa48;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-bottom: 4px solid #d49040;
+            width: 100%; /* Asegura que el header ocupe todo el ancho */
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center; /* Centrar texto */
+        }
+
+        .dashboard {
+            width: 100%;
+        }
+
+        .dashboard h2 {
+            font-size: 2rem;
+            color: #ebaa48;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #333;
+            font-size: 1.4rem;
+            margin: 10px 0;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 1rem;
+            margin: 5px 0;
+        }
+
+        .card .icon {
+            font-size: 2rem;
+            color: #ebaa48;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #ebaa48;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        footer button {
+            background-color: white;
+            color: #ebaa48;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        footer button:hover {
+            background-color: #d49040;
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px; /* Reducir el ancho en pantallas más pequeñas */
+            }
+
+            .main-content {
+                margin-left: 200px; /* Ajustar margen */
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .profile-section {
+                flex-direction: column; /* Alinear verticalmente */
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="profile">
+        <img src="https://farm4.static.flickr.com/3654/3592051397_7117be3c0c.jpg" alt="Perfil del Alumno">
+        {% if nombreAlumno %}
+            <h2> {{ nombreAlumno }}</h2>
+        {% else %}
+            <p class="no-records">No hay datos.</p>
+        {% endif %}
+    </div>
+    <nav>
+        <a href="{{ url_for('indexAlumno') }}"><i class="fas fa-home"></i> Inicio</>
+        <a href="{{ url_for('historialAlumno') }}"><i class="fas fa-history"></i> Historial</a>
+        <a href="{{ url_for('mensajesAlumno') }}"><i class="fas fa-comments"></i> Mensajes</a>
+        <a href="{{ url_for('configuracionAlumno') }}"><i class="fas fa-cog"></i> Configuración</a>
+        <a href="{{ url_for('encuestasAlumno') }}"><i class="fas fa-poll"></i> Encuestas</a>
+        <a href="{{ url_for('recursosAlumno') }}"><i class="fas fa-book"></i> Recursos</a>
+        <a href="{{ url_for('analisis') }}"><i class="fas fa-camera"></i> Detección</a>
+    </nav>
+    <footer>
+        <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+    </footer>
+    
+</div>
+
+<div class="main-content">
+    <header>
+        <h1>Bienvenido, Alumno</h1>
+    </header>
+
+    <div class="profile-section">
+        <h2>Información General</h2>
+    </div>
+
+    <div class="dashboard">
+        <h2>Estado Actual</h2>
+        <div class="cards-container">
+            <div class="card">
+                <div class="icon">😌</div>
+                <h3>Ultimo nivel de ansiedad detectado</h3>
+                {% if fechaAnalisis %}
+                <p><strong>Último nivel detectado:</strong> {{ puntaje_ansiedad }}</p>
+                {% else %}
+                    <p>No hay análisis disponibles.</p>
+                {% endif %}
+            </div>
+            <div class="card">
+                <div class="icon">📅</div>
+                <h3>Última Evaluación</h3>
+                {% if fechaAnalisis %}
+                <p><strong>Último Análisis:</strong> {{ fechaAnalisis }}</p>
+                {% else %}
+                    <p>No hay análisis disponibles.</p>
+                {% endif %}
+            </div>
+            <div class="card">
+                <a class = "dsa" href="{{ url_for('mensajesAlumno') }}">
+                <div class="icon">📬</div>
+                <h3>Mensajes Nuevos</h3>
+                <p>3</p></a>
+            </div>
+            <div class="card">
+                <a class = "dsa" href="{{ url_for('recursosAlumno') }}">
+                <div class="icon">📚</div>
+                <h3>Recursos Adicionales</h3>
+                <p>Ver</p></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

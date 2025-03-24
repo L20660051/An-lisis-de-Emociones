@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información - Psicólogo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylePsicologo.css') }}">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .info-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card-header {
+            background-color: #A36361;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .info-card-content {
+            padding: 20px;
+        }
+
+        .data-section {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .data-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            transition: transform 0.2s;
+        }
+
+        .data-item:hover {
+            transform: scale(1.02);
+        }
+
+        h4 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex flex-column flex-lg-row">
+        <div class="sidebar">
+            <div class="profile text-center">
+                <img src="{{ url_for('static', filename='/Imagen/PSICOLOGA.jpg') }}" alt="Perfil">
+                {% if nombrePsicologo %}
+                    <h2> {{ nombrePsicologo }}</h2>
+                {% else %}
+                    <p class="no-records">No hay datos.</p>
+                {% endif %}
+            </div>
+            <nav class="mt-4">
+                <a href="{{ url_for('indexPsicologo') }}" class="d-block py-2 text-decoration-none active">Resultados de análisis</a>
+                <a href="{{ url_for('informacionPsicologo') }}" class="d-block py-2 text-decoration-none">Información</a>
+                <a href="{{ url_for('alumnosPsicologo') }}" class="d-block py-2 text-decoration-none">Usuarios</a>
+                <a href="{{ url_for('mensajesPsicologo') }}" class="d-block py-2 text-decoration-none">Mensajes</a>
+                <a href="{{ url_for('configuracionPsicologo') }}" class="d-block py-2 text-decoration-none">Configuración</a>
+            </nav>
+            <footer>
+                <a href="{{ url_for('logout') }}"><p class="btn btn-light">Cerrar Sesión</p></a>
+              </footer>
+        </div>
+
+        <div class="main-content p-4 flex-grow-1">
+            <header class="mb-4">
+                <h1 class="text-center">Información General</h1>
+            </header>
+
+
+            
+
+            <div class="row">
+                <!-- Tarjeta de Grupos -->
+                <!-- <div class="col-md-4 mb-4" onclick="filterData('grupos')">
+                    <div class="card info-card">
+                        <div class="card-header info-card-header">
+                            <h5 class="card-title">Casos detectados</h5>
+                        </div>
+                        <div class="card-body info-card-content">
+                            <p>Gestión de usuarios en los cuales se ha detectado casos de ansiedad.</p>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Tarjeta de Alumnos -->
+                <div class="col-md-4 mb-4" onclick="filterData('alumnos')">
+                    <div class="card info-card">
+                        <div class="card-header info-card-header">
+                            <h5 class="card-title">Casos detectads</h5>
+                        </div>
+                        <div class="card-body info-card-content">
+                            <p>Lista de casos detectados.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de Casos Atendidos -->
+                <div class="col-md-4 mb-4" onclick="filterData('casos')">
+                    <div class="card info-card">
+                        <div class="card-header info-card-header">
+                            <h5 class="card-title">Casos Atendidos</h5>
+                        </div>
+                        <div class="card-body info-card-content">
+                            <p>Resumen de casos atendidos y análisis de progreso.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-section" id="data-section">
+                <h4>Información Relevante</h4>
+                <div id="data-display">
+                    <!-- Los datos se mostrarán aquí -->
+                    <p>Seleccione una opción para ver la información correspondiente.</p>
+                </div>
+
+
+
+
+
+                <div id="alumnos-content" style="display: none;">
+                    {% for usuario in usuarios_alumno %}
+                        <div class="data-item">{{ usuario[0] }} - Ansiedad leve </div>
+                    {% endfor %}
+                </div>
+
+                <div id="detecciones-content" style="display: none;">
+                    {% for usuario in usuarios_detectados %}
+                        <div class="data-item">{{ usuario[0] }} - Nivel de ansiedad {{ usuario[1] }}</div>
+                    {% endfor %}
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    
+
+   
+    
+
+    <script>
+        function filterData(type) {
+            const dataDisplay = document.getElementById('data-display');
+            let content = '';
+
+            switch (type) {
+                case 'grupos':
+                    document.getElementById('alumnos-content').style.display = 'block';
+                    document.getElementById('detecciones-content').style.display = 'none';
+                    break;
+                case 'alumnos':
+                    document.getElementById('detecciones-content').style.display = 'block';
+                    document.getElementById('alumnos-content').style.display = 'none';
+                    break;
+                case 'casos':
+                    content = `
+                        <div class="data-item">Caso 1: Ansiedad leve - Tratamiento en curso.</div>
+                        <div class="data-item">Caso 2: Ansiedad moderada - Seis sesiones completadas.</div>
+                        <div class="data-item">Caso 3: Estrés post-traumático - En evaluación.</div>
+                    `;
+                    break;
+                default:
+                    content = '<p>Seleccione una opción para ver la información correspondiente.</p>';
+            }
+
+            dataDisplay.innerHTML = content;
+        }
+    </script>
+        <script src="Scrpt.js"></script>
+
+</body>
+
+</html>
